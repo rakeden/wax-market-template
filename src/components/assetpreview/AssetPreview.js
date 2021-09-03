@@ -50,15 +50,23 @@ function AssetPreview(props) {
     useEffect(() => {
     }, [frontVisible, saleId]);
 
-    const handleBought = (bought) => {
-        if (bought) {
-            setUpdate({
-                'new_owner': userName
-            });
+    const handleBought = (buyInfo) => {
+
+        if (buyInfo) {
+            if (buyInfo['bought'])
+                setUpdate({
+                    'new_owner': userName
+                });
+
+            if (buyInfo['error'])
+                setError(buyInfo['error']);
+
+            setBought(buyInfo['bought']);
+        } else {
+            setBought(false);
         }
 
         setIsLoading(false);
-        setBought(bought);
     };
 
     const updateListing = (res) => {
@@ -132,13 +140,13 @@ function AssetPreview(props) {
     return (
         <div 
             className={cn(
-                'relative w-full rounded-md overflow-hidden',
+                'relative w-asset mx-auto rounded-md overflow-hidden',
                 'flex flex-col',
                 'text-base break-words',
                 'backdrop-filter backdrop-blur-sm border border-paper',
-                'shadow-md bg-gray-500',
-                { 'Front': frontVisible},
-                { 'Back': !frontVisible},
+                'shadow-md bg-paper',
+                { 'rounded-br-2xl': frontVisible},
+                { 'rounded-bl-2xl': !frontVisible},
             )}
             id={'AssetPreview_'+index}
         >
@@ -182,7 +190,7 @@ function AssetPreview(props) {
                             'absolute right-0 w-5 h-5 z-20',
                             'text-white m-auto leading-snug cursor-pointer',
                             'opacity-70 hover:opacity-100',
-                        )}
+                        )} 
                     >
                         <img src="/more.svg"
                             className={cn(

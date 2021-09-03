@@ -3,10 +3,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      primary: '#4a82af',
-      secondary: '#ff0000',
+      primary: '#03ff92',
+      secondary: '#0a0a0a',
       neutral: '#ffffff',
-      invert: '#0a0a0a',
+      invert: '#ff0000',
       page: '#0a0a0a',
       paper: '#3A3A3A',
     },
@@ -44,6 +44,8 @@ module.exports = {
     maxWidth: {
       'img-small': '2rem',
       'td': '6rem',
+      'popup-lg': '36rem',
+      'popup': '26rem',
     },
     maxHeight: {
       'img-small': '2rem',
@@ -51,12 +53,10 @@ module.exports = {
       'img-asset': '37.5rem',
     },
     extend: {
-      top: {
-        '15': '3.75rem'
-      },
       width: {
-        'asset': '13.5rem',
-        'sharepopup': '42rem',
+        'asset': '14rem',
+        'popup': '30rem',
+        'popup-lg': '40rem',
       },
       height: {
         '6.5':'1.625rem',

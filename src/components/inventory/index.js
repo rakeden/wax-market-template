@@ -14,7 +14,7 @@ import LoadingIndicator from "../loadingindicator";
 import Pagination from "../pagination/Pagination";
 import Filters from "../filters/Filters";
 import ScrollUpIcon from '../common/util/ScrollUpIcon';
-import {getValues} from "../helpers/Helpers";
+import {getValues, getOrderDir, getSortBy} from "../helpers/Helpers";
 import cn from "classnames";
 
 const Inventory = (props) => {
@@ -33,6 +33,7 @@ const Inventory = (props) => {
     const name = values['name'] ? values['name'] : '';
     const rarity = values['rarity'] ? values['rarity'] : '';
     const variant = values['variant'] ? values['variant'] : '';
+    const sortBy = values['sort'] ? values['sort'] : '';
 
     const initialized = state.collections !== null && state.collections !== undefined;
 
@@ -53,6 +54,8 @@ const Inventory = (props) => {
             'user': user,
             'page': page,
             'limit': config.limit,
+            'orderDir': getOrderDir(sortBy),
+            'sortBy': getSortBy(sortBy),
             'name': name,
             'rarity': rarity,
             'variant': variant
@@ -94,56 +97,51 @@ const Inventory = (props) => {
                 image={config.market_image}
             />
             <MarketContent>
-                <div className={cn(
-                    'container mx-auto',
-                    'grid grid-cols-4 gap-10',
-                )}>
-                    <div 
-                        className={cn(
-                            'col-span-4 sm:col-span-1'
-                        )}    
-                    >
-                        <Filters
-                            {...props}
-                            searchPage={'inventory'}
-                        />
-                    </div>
+                <div 
+                    className={cn(
+                        'w-full md:w-1/4 md:ml-4',
+                        'p-5'
+                    )}    
+                >
+                    <Filters
+                        {...props}
+                        searchPage={'inventory'}
+                    />
+                </div>
+                <div
+                    className={cn(
+                        'w-full md:w-3/4',
+                    )}
+                >   
+                    <Pagination
+                        items={assets && assets.data}
+                        page={page}
+                        setPage={setPage}
+                    />
+                    { isLoading ? <LoadingIndicator /> : 
 
-                    <div
-                        className={cn(
-                            'col-span-4 sm:col-span-3',
-                        )}
-                    >   
+                        <div className={cn(
+                            "relative w-full mb-24",
+                            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
+                        )}>
+                            {
+                                assets && assets['success'] ? assets['data'].map((asset, index) =>
+                                    <AssetPreview
+                                        {...props}
+                                        index={index}
+                                        asset={asset}
+                                    />
+                                ) : ''
+                            }
+                        </div>
+                    }
+                    {isLoading ? '' :
                         <Pagination
                             items={assets && assets.data}
                             page={page}
                             setPage={setPage}
                         />
-                        { isLoading ? <LoadingIndicator /> : 
-
-                            <div className={cn(
-                                "relative w-full mb-24",
-                                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
-                            )}>
-                                {
-                                    assets && assets['success'] ? assets['data'].map((asset, index) =>
-                                        <AssetPreview
-                                            {...props}
-                                            index={index}
-                                            asset={asset}
-                                        />
-                                    ) : ''
-                                }
-                            </div>
-                        }
-                        {isLoading ? '' :
-                            <Pagination
-                                items={assets && assets.data}
-                                page={page}
-                                setPage={setPage}
-                            />
-                        }
-                    </div>
+                    }
                 </div>
             </MarketContent>
             {showScrollUpIcon ? <ScrollUpIcon onClick={scrollUp} /> : '' }

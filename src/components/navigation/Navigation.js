@@ -60,7 +60,7 @@ const Navigation = React.memo(props => {
         <div className={cn(
             'Navigation w-full',
             'bg-page shadow-sm border-b border-paper',
-            'z-50'
+            'z-100'
         )}>
             <div className={cn(
                 'container h-auto md:h-20 w-full mx-auto',

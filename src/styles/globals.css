@@ -81,3 +81,7 @@ body {
     top: -190px;
     left: 60px;
 }
+
+.left-popup {
+    left: calc(50% - 15em);
+}
